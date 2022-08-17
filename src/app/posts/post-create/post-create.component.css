@@ -2,7 +2,7 @@ mat-card{
     width: 80%;
     margin: auto;
 }
-
-math-form-field textarea{
+mat-form-field{
+    display: block;
     width: 100%;
 }
