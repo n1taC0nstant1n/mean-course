@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Post } from "./post.model";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class PostsService{
     private posts: Post[] = [];
 
