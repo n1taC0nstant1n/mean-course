@@ -72,16 +72,22 @@ router.put('/:id',multer({storage:storage}).single('image'),
 })
 
 router.get('',(req, res, next) => {
+    const pageSize = +req.query.pageSize;
+    const currentPage = +req.query.page;
+    const postQuery = Post.find();
+    if(pageSize && currentPage){
+        postQuery
+         .skip(pageSize * (currentPage - 1))
+         .limit(pageSize);
+    }
     //next()
-   Post.find()
-    .then(documents => {
+   postQuery.then(documents => {
         console.log(documents);
         res.json({
             message: 'Posts fetch succesfully!',
             posts: documents
-           });
-    })
-   
+        });
+    });
 });
 
 router.get('/:id', (req, res, next) => {
