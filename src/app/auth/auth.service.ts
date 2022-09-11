@@ -8,6 +8,7 @@ import { AuthData } from "./auth-data.model";
 export class AuthService{
     private isAuthenticated = false;
     private token: string;
+    private tokenTimer: any; //NodeJS.Timer;
     private authStatusListener = new Subject<boolean>();
     constructor(private http: HttpClient, private router: Router){}
 
@@ -33,14 +34,20 @@ export class AuthService{
 
     login(email: string, password: string){
         const authData: AuthData = { email: email, password: password};
-        this.http.post<{token: string}>('http://localhost:3000/api/user/login',authData)
+        this.http.post<{token: string, expiresIn: number}>('http://localhost:3000/api/user/login',authData)
             .subscribe(response => {
                 //console.log(response);
                 const token = response.token;
                 this.token = token;
                 if(token){
+                    const expiresInDuration = response.expiresIn;
+                    //console.log(expiresInDuration);
+                    this.tokenTimer = setTimeout(() =>{
+                        this.logout();
+                    }, expiresInDuration);
                     this.isAuthenticated = true;
                     this.authStatusListener.next(true);
+                    clearTimeout(this.tokenTimer);
                     this.router.navigate(['/']);
                 }
             })
