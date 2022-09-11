@@ -34,7 +34,6 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     HeaderComponent,
     LoginComponent,
     SignupComponent
-
   ],
   imports: [
     BrowserModule,
