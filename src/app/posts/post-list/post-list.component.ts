@@ -38,9 +38,11 @@ export class PostListComponent implements OnInit, OnDestroy{
         this.authStatusSub.unsubscribe();
     }
 
-    onDelete(postId: string){
+    onDelete(postId: string) {
+        this.isLoading = true;
         this.postsService.deletePost(postId);
-    }
+        this.isLoading = false;
+      }
 
     onChangedPage(pageData: PageEvent){
         this.currentPage = pageData.pageIndex + 1;

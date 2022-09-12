@@ -48,6 +48,11 @@ router.post('',checkAuth, multer({storage:storage}).single('image'), (req, res, 
                 // imagePath: createdPost.imagePath
             }
         });
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: 'Creating a post failed!'
+        })
     });
     
 });
@@ -77,6 +82,11 @@ router.put('/:id', checkAuth,multer({storage:storage}).single('image'),
         }
 
     })
+    .catch(error => {
+        res.status(500).json({
+            message: "Couldn't update post!"
+        })
+    })
 })
 
 router.get('',(req, res, next) => {
@@ -95,6 +105,11 @@ router.get('',(req, res, next) => {
             message: 'Posts fetch succesfully!',
             posts: documents
         });
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: 'Fetching posts failed!'
+        })
     });
 });
 
@@ -107,6 +122,11 @@ router.get('/:id', (req, res, next) => {
             res.status(404).json({ message: 'Post not found'})
         }
     })
+    .catch(error => {
+        res.status(500).json({
+            message: 'Fetching posts failed!'
+        })
+    });
 });
 
 router.delete('/:id', checkAuth, (req, res, next) => {
@@ -119,7 +139,12 @@ router.delete('/:id', checkAuth, (req, res, next) => {
             res.status(401).json({message:'Not Authorized'});
 
         }
-    });
+    })
+    .catch(error => {
+        res.status(500).json({
+            message: 'Fetching posts failed!'
+        })
+    });;
 });
 
 
